@@ -23,6 +23,11 @@ const SF = props => {
   const handleSubmit = event => {
     event.preventDefault();
     props.addSmurf(formInputs);
+    setFormInputs({
+        name: "",
+        age: "",
+        height: ""
+      })
   };
 
   const handleUpdate = (event, smurf) => {

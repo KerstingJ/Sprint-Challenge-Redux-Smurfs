@@ -12,8 +12,8 @@ export default props => {
       {!editing ? (
         <div>
           <h3>{smurf.name}</h3>
-          <p>{smurf.height}</p>
-          <p>{smurf.age}</p>
+          <p>AGE: {smurf.age}</p>
+          <p>HEIGHT: {smurf.height}</p>
         </div>
       ) : (
         <SmurfForm toggleEditingState={[editing, toggleEditing]} smurf={smurf} />

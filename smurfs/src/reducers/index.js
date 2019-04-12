@@ -5,6 +5,7 @@
 import {
   GETTING_SMURFS, GETTING_SMURFS_SUCCESS, GETTING_SMURFS_FAILURE,
   ADDING_SMURF, ADDING_SMURF_SUCCESS, ADDING_SMURF_FAILURE,
+  UPDATING_SMURF, UPDATING_SMURF_SUCCESS, UPDATING_SMURF_FAILURE
 } from '../actions/index'
 
 /*
@@ -69,14 +70,16 @@ function gettingSmurfFailure(state, action){
 function addingSmurf(state, action){
   return {
     ...state,
-    addingSmurf: true
+    addingSmurf: true,
+    error: null
   }
 }
 function addingSmurfSuccess(state, action){
   return {
     ...state,
     addingSmurf: false,
-    smurfs: action.payload
+    smurfs: action.payload,
+    error: null
   }
 }
 function addingSmurfFailure(state, action){
@@ -87,15 +90,28 @@ function addingSmurfFailure(state, action){
   }
 }
 
-// function updatingSmurf(state, action){
-//   return state
-// }
-// function updatingSmurfSuccess(state, action){
-//   return state
-// }
-// function updatingSmurfFailure(state, action){
-//   return state
-// }
+function updatingSmurf(state, action){
+  return {
+    ...state,
+    updatingSmurf: true,
+    error: null
+  }
+}
+function updatingSmurfSuccess(state, action){
+  return {
+    ...state,
+    updatingSmurf: false,
+    smurfs: action.payload,
+    error: null
+  }
+}
+function updatingSmurfFailure(state, action){
+  return {
+    ...state,
+    updatingSmurf: false,
+    error: action.payload
+  }
+}
 
 // function deletingSmurf(state, action){
 //   return state
@@ -123,6 +139,13 @@ export default (state = initialState, action) => {
       return addingSmurfSuccess(state, action)
     case ADDING_SMURF_FAILURE:
       return addingSmurfFailure(state, action)
+
+    case UPDATING_SMURF:
+      return updatingSmurf(state, action)
+    case UPDATING_SMURF_SUCCESS:
+      return updatingSmurfSuccess(state, action)
+    case UPDATING_SMURF_FAILURE:
+      return updatingSmurfFailure(state, action)
 
     default:
       return state

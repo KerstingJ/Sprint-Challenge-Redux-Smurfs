@@ -16,7 +16,7 @@ export default props => {
           <p>{smurf.age}</p>
         </div>
       ) : (
-        <SmurfForm smurf={smurf} />
+        <SmurfForm toggleEditingState={[editing, toggleEditing]} smurf={smurf} />
       )}
       <button className="edit" onClick={() => toggleEditing(!editing)}>
         {editing ? "CANCEL" : "EDIT"}
@@ -40,5 +40,6 @@ const SmurfContainer = styled.div`
     border: none;
     background: none;
     color: lightgrey;
+    margin-bottom: 10px;
   }
 `;

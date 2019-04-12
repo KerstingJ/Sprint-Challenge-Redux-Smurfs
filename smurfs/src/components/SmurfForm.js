@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import { addSmurf } from "../actions";
+import { addSmurf, updateSmurf } from "../actions";
 
 const SF = props => {
   const { smurf } = props;
@@ -25,15 +25,34 @@ const SF = props => {
     props.addSmurf(formInputs);
   };
 
-  const handleUpdate = (event, id) => {
+  const handleUpdate = (event, smurf) => {
     event.preventDefault();
-    props.updateSmurf({ ...formInputs, id });
+    
+    const getValid = obj => {
+        let val = {}
+        let keys = Object.keys(obj)
+        for (let key of keys) {
+            if (obj[key]) {
+                val[key] = obj[key]
+            }
+        }
+
+        return val;
+    }
+
+    props.updateSmurf({ 
+        ...smurf,
+        ...getValid(formInputs)
+    }).then(() => {
+        const [editing, toggleEditing] = props.toggleEditingState;
+        toggleEditing(!editing)
+    })
   };
 
   return (
     <SmurfForm
         className={smurf ? "update" : ""}
-      onSubmit={smurf ? event => handleUpdate(event, smurf.id) : handleSubmit}
+      onSubmit={smurf ? event => handleUpdate(event, smurf): handleSubmit}
     >
       <input
         name="name"
@@ -80,6 +99,10 @@ const SmurfForm = styled.form`
     border: 1px solid lightgray;
   }
 
+  input::placeholder{
+      color: lightsteelblue;
+  }
+
   button:hover {
     background: darkgray;
     color: white;
@@ -89,6 +112,7 @@ const SmurfForm = styled.form`
 export default connect(
   null,
   {
-    addSmurf
+    addSmurf,
+    updateSmurf
   }
 )(SF);

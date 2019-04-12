@@ -75,11 +75,12 @@ export const UPDATING_SMURF_SUCCESS = "UPDATING_SMURF_SUCCESS"
 export const UPDATING_SMURF_FAILURE = "UPDATING_SMURF_FAILURE"
 
 export const updateSmurf = (smurf) => dispatch => {
+  console.log(smurf)
   dispatch({
     type: UPDATING_SMURF
   })
 
-  axios
+  return axios
     .put(`http://localhost:3333/smurfs/${smurf.id}`, smurf)
     .then(res => {
       dispatch({

@@ -1,80 +1,94 @@
-import React, {useState}from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
 
-import {addSmurf} from '../actions'
+import { addSmurf } from "../actions";
 
-const SF = (props) => {
-    const [formInputs, setFormInputs] = useState({
-        name: "",
-        age: "",
-        height: ""
-    })
+const SF = props => {
+  const { smurf } = props;
 
-    const inputHandler = event => {
-        setFormInputs({
-            ...formInputs,
-            [event.target.name]: event.target.value
-        })
-    }
+  const [formInputs, setFormInputs] = useState({
+    name: "",
+    age: "",
+    height: ""
+  });
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        props.addSmurf(formInputs)
-    }
+  const inputHandler = event => {
+    setFormInputs({
+      ...formInputs,
+      [event.target.name]: event.target.value
+    });
+  };
 
-    return (
-        <SmurfForm
-            onSubmit={handleSubmit}
-        >
-            <input
-                name="name"
-                placeholder="name"
-                value={formInputs.name}
-                onChange={inputHandler}
-            />
-            <input
-                name="age"
-                placeholder="age"
-                value={formInputs.age}
-                onChange={inputHandler}
-            />
-            <input
-                name="height"
-                placeholder="height"
-                value={formInputs.height}
-                onChange={inputHandler}
-            />
-            <button 
-                type="submit"
-            >Add Smurf</button>
-        </SmurfForm>
-    )
-}
+  const handleSubmit = event => {
+    event.preventDefault();
+    props.addSmurf(formInputs);
+  };
+
+  const handleUpdate = (event, id) => {
+    event.preventDefault();
+    props.updateSmurf({ ...formInputs, id });
+  };
+
+  return (
+    <SmurfForm
+        className={smurf ? "update" : ""}
+      onSubmit={smurf ? event => handleUpdate(event, smurf.id) : handleSubmit}
+    >
+      <input
+        name="name"
+        placeholder={smurf ? smurf.name : "name"}
+        value={formInputs.name}
+        onChange={inputHandler}
+      />
+      <input
+        name="age"
+        placeholder={smurf ? smurf.age : "age"}
+        value={formInputs.age}
+        onChange={inputHandler}
+      />
+      <input
+        name="height"
+        placeholder={smurf ? smurf.height : "height"}
+        value={formInputs.height}
+        onChange={inputHandler}
+      />
+      <button type="submit">{smurf ? "Update Smurf" : "Add Smurf"}</button>
+    </SmurfForm>
+  );
+};
 
 const SmurfForm = styled.form`
-    width: 300px;
-    margin: 15px auto;
-    display: flex;
-    flex-direction: column;
+  width: 300px;
+  margin: 15px auto;
+  display: flex;
+  flex-direction: column;
 
-    border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+
+  &.update {
+      border: none;
+  }
+
+  input,
+  button {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+
     border: 1px solid lightgray;
+  }
 
-    input, button {
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px;
+  button:hover {
+    background: darkgray;
+    color: white;
+  }
+`;
 
-        border: 1px solid lightgray;
-    }
-
-    button:hover {
-        background: darkgray;
-        color: white;
-    }
-`
-
-export default connect(null, {
+export default connect(
+  null,
+  {
     addSmurf
-})(SF)
+  }
+)(SF);

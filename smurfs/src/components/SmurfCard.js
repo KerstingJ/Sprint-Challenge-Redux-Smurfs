@@ -1,23 +1,44 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import styled from "styled-components";
 
+import SmurfForm from "./SmurfForm";
 export default props => {
-    const {smurf} = props;
+  const { smurf } = props;
 
-    return (
-        <Smurf>
-            <h3>{smurf.name}</h3>
-            <p>{smurf.height}</p>
-            <p>{smurf.age}</p>
-        </Smurf>
-    )
-}
+  const [editing, toggleEditing] = useState(false);
 
-const Smurf = styled.div`
-    width: 300px;
-    border: 1px solid lightgrey;
-    border-radius: 3px;
-    box-shadow: 2px 2px 3px 1px rgba(0,0,0,0.3);
+  return (
+    <SmurfContainer>
+      {!editing ? (
+        <div>
+          <h3>{smurf.name}</h3>
+          <p>{smurf.height}</p>
+          <p>{smurf.age}</p>
+        </div>
+      ) : (
+        <SmurfForm smurf={smurf} />
+      )}
+      <button className="edit" onClick={() => toggleEditing(!editing)}>
+        {editing ? "CANCEL" : "EDIT"}
+      </button>
+    </SmurfContainer>
+  );
+};
 
-    margin: 10px auto;
-`
+const SmurfContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+  box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.3);
+  margin: 10px auto;
+  width: 300px;
+
+  .edit {
+    border: none;
+    background: none;
+    color: lightgrey;
+  }
+`;

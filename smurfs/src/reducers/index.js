@@ -58,14 +58,33 @@ function gettingSmurfFailure(state, action){
   }
 }
 
+
+// smurfs: [],
+//   fetchingSmurfs: false,
+//   addingSmurf: false,
+//   updatingSmurf: false,
+//   deletingSmurf: false,
+//   error: null
+
 function addingSmurf(state, action){
-  return state
+  return {
+    ...state,
+    addingSmurf: true
+  }
 }
 function addingSmurfSuccess(state, action){
-  return state
+  return {
+    ...state,
+    addingSmurf: false,
+    smurfs: action.payload
+  }
 }
 function addingSmurfFailure(state, action){
-  return state
+  return {
+    ...state,
+    addingSmurf: false,
+    error: action.payload
+  }
 }
 
 // function updatingSmurf(state, action){
@@ -90,12 +109,21 @@ function addingSmurfFailure(state, action){
 
 export default (state = initialState, action) => {
   switch(action.type){
+
     case GETTING_SMURFS:
       return gettingSmurf(state, action)
     case GETTING_SMURFS_SUCCESS:
       return gettingSmurfSuccess(state, action)
     case GETTING_SMURFS_FAILURE:
       return gettingSmurfFailure(state, action)
+
+    case ADDING_SMURF:
+      return addingSmurf(state, action)
+    case ADDING_SMURF_SUCCESS:
+      return addingSmurfSuccess(state, action)
+    case ADDING_SMURF_FAILURE:
+      return addingSmurfFailure(state, action)
+
     default:
       return state
   }
